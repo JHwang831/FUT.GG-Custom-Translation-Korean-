@@ -12,10 +12,10 @@ A Tampermonkey userscript that provides real-time Korean translations for FC25/F
 
 ## 🎯 Project Purpose
 
-FUT.gg is a popular FIFA Ultimate Team database and squad builder, but lacks Korean language support. This userscript automatically translates player information, statistics, and interface elements into Korean, making the platform more accessible to Korean-speaking FIFA players.
+FUT.gg is a popular FC Ultimate Team database and squad builder, but lacks Korean language support. This userscript automatically translates player information, statistics, and interface elements into Korean, making the platform more accessible to Korean-speaking FC players.
 
 **Target Users**:
-- Korean FIFA Ultimate Team players
+- Korean FC Ultimate Team players
 - Users who prefer Korean language interface
 - Anyone needing quick Korean translations on FUT.gg
 
@@ -51,7 +51,7 @@ FUT.gg is a popular FIFA Ultimate Team database and squad builder, but lacks Kor
    - Solution: Context-aware pattern matching with priority rules
 
 2. **Non-standard Sentence Structures** (EVO Objectives)
-   - Problem: FIFA's evolution objectives use irregular phrasing
+   - Problem: FC's evolution objectives use irregular phrasing
    - Solution: Custom regex patterns for each objective type
 
 3. **Dynamic Content Loading**
