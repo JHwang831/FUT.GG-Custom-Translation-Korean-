@@ -93,7 +93,7 @@ A browser extension for running userscripts:
    - Click "Add to Browser"
 
 2. **Install the script**
-   - Visit the [script installation page](#) (or raw GitHub URL)
+   - Visit the [script installation page](https://greasyfork.org/ko/scripts/530332-fut-gg-custom-translation-korean) (or raw GitHub URL)
    - Tampermonkey will automatically detect the script
    - Click "Install"
 
