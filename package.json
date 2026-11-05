@@ -1,0 +1,19 @@
+{
+  "name": "futgg",
+  "version": "3.0.0",
+  "description": "FUT.GG Korean userscript: dictionary, domain rules, incremental DOM adapters",
+  "main": "FUTGG_KOR_3.0.user.js",
+  "scripts": {
+    "build": "node scripts/build.cjs",
+    "check": "node scripts/build.cjs --check && node --check FUTGG_KOR_3.0.user.js",
+    "test": "node scripts/build.cjs && node tests/runtime.cjs && node tests/live-sbc.cjs && node tests/objectives.cjs && node tests/player-ui.cjs && node tests/evo-ui.cjs && node tests/reported-ui.cjs && node tests/price-ui.cjs && npm run check"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  },
+  "private": true
+}

@@ -1,269 +1,84 @@
-# FUT.gg Korean Translation Tool
+# FUT.GG 한국어 번역 v3.0
 
-A Tampermonkey userscript that provides real-time Korean translations for FC25/FC26 player database and information on FUT.gg. Built with vanilla JavaScript and optimized regular expressions for accurate text processing.
+**한국어** | [English](README.en.md)
 
-🌐 **GitHub**: [https://github.com/JHwang831/FUT.GG-Custom-Translation-Korean-](https://github.com/JHwang831/FUT.GG-Custom-Translation-Korean-)  
-🎮 **Target Site**: [FUT.gg](https://www.fut.gg/)
+[FUT.GG](https://www.fut.gg/)의 메뉴, 선수 능력치, 역할, 플레이스타일과 진화·목표·SBC의 공통 기능을 한국어로 표시하는 Tampermonkey 사용자 스크립트입니다. 현재 FUT.GG의 FC 27 화면을 중심으로 정리했습니다.
 
-⚠️ **Current Status**: 
-- **FC26 Support**: ~80% complete (active development)
-- **FC25 Support**: Objectives tab not yet implemented
-- **Version**: v1.2.0
+**[v3.0 설치하기](https://raw.githubusercontent.com/JHwang831/FUT.GG-Custom-Translation-Korean-/main/FUTGG_KOR_3.0.user.js)** · [설치 파일 보기](FUTGG_KOR_3.0.user.js) · [오류 제보](https://github.com/JHwang831/FUT.GG-Custom-Translation-Korean-/issues)
 
-## 🎯 Project Purpose
+## 설치 및 업데이트
 
-FUT.gg is a popular FC Ultimate Team database and squad builder, but lacks Korean language support. This userscript automatically translates player information, statistics, and interface elements into Korean, making the platform more accessible to Korean-speaking FC players.
+1. 브라우저에 [Tampermonkey](https://www.tampermonkey.net/)를 설치합니다.
+2. 위의 **v3.0 설치하기**를 열고 Tampermonkey에서 설치합니다.
+3. [FUT.GG](https://www.fut.gg/)를 새로고침합니다.
 
-**Target Users**:
-- Korean FC Ultimate Team players
-- Users who prefer Korean language interface
-- Anyone needing quick Korean translations on FUT.gg
+설치 화면이 열리지 않으면 `FUTGG_KOR_3.0.user.js`의 전체 내용을 복사해 Tampermonkey의 새 스크립트에 붙여넣고 저장하세요. 기존 번역 스크립트가 있다면 그 내용을 교체하거나 이전 스크립트를 꺼서 하나만 실행하세요. 사용자는 Node.js나 npm을 설치할 필요가 없습니다.
 
-## ✨ Key Features
+이 설치본은 GitHub의 스크립트·메타데이터 주소를 업데이트 경로로 사용합니다. Greasy Fork 게시본은 별도로 관리되며 이번 업로드로 함께 변경되지는 않습니다. 개발용 3.1.x를 사용 중이라면 버전 번호를 3.0으로 정리한 이번 파일을 직접 설치하거나 기존 내용을 교체하세요. 내부 버전은 `3.0.0`입니다.
 
-### 🌐 Comprehensive Translation Coverage
-**What it translates**:
-- Player cards and statistics
-- Position names and roles
-- Team information
-- Evolution objectives
-- Interface elements
-- Squad builder sections
+## 번역 범위
 
-**How it works**: Automatic translation when you visit any FUT.gg page
+| 영역 | 포함 항목 |
+| --- | --- |
+| 공통 화면 | 메뉴, 검색 안내, 필터, 정렬, 버튼, 로그인 안내 |
+| 선수 | 목록·상세 능력치, 역할, 플레이스타일, GG 등급, 시세·거래 정보, 티어 투표 |
+| 진화·Evo Lab | 요구사항, 강화 항목, 선수 선택창, 생성 설정, 임시 저장·업그레이드 안내 |
+| 목표·라이브 이벤트 | 경기·승리·득점·도움 등의 달성 조건, 수량형 목표 제목, 참가 조건, 보상 |
+| SBC | 카드 공통 항목, 스쿼드 요구사항, 보상, 솔버 관련 문구 |
+| 시간 | 일·시간·분·초 카운트다운, 상대 시간, 시작·종료 안내, 그래프 날짜 |
 
----
+선수명, 클럽·리그·국가·시즌 등 식별 정보와 개별 진화·목표·SBC 이름 및 소개는 원문을 유지합니다. `RM Roles++`처럼 포지션만 달라지는 공통 역할 진화 제목은 `RM 역할++`로 번역합니다. `Win 1`, `Play 2` 같은 수량형 목표 제목도 번역합니다.
 
-### 🚀 Optimized Performance
-**Technical highlights**:
-- **RegExp.exec-based matching**: Efficient pattern matching for text replacement
-- **DOM TreeWalker**: Fast DOM traversal for translation injection
-- **Minimal performance impact**: Non-blocking script execution
-- **Smart caching**: Reduces redundant translations
+뉴스와 일반적인 긴 소개 문장은 번역하지 않습니다. 등록된 공통 기능 안내와 달성 조건은 길어도 번역합니다. 이미지·캔버스 내부의 글자는 대상이 아닙니다.
 
----
+## v3.0 변경 사항
 
-### 🎯 Intelligent Text Processing
-**Challenges solved**:
+- 번역 사전, 조건 규칙, 원문 유지 정책, 실행 코드를 분리하고 설치 파일 하나로 결합했습니다.
+- 최초 화면을 순회한 뒤 변경된 영역만 묶어서 처리하며 원문과 번역 결과를 캐시합니다.
+- React의 여러 텍스트 노드로 나뉜 투표 질문·숫자·로그인 안내·시간 문구를 처리하고 기존 요소와 클릭 동작을 유지합니다.
+- 홈 카운트다운의 초 갱신, 라이브 이벤트의 시작·종료 표기, 선수 SBC 카드의 번역 제외 오류를 수정했습니다.
+- Evo Lab의 선택창·설정·로그인 안내와 진화 카드의 요구사항·강화 항목을 보완했습니다.
+- 출생일·추가일 필터, 가격 갱신·현재가 비교 문구와 그래프 날짜를 보완했습니다.
 
-1. **Time vs Currency Unit Conflicts**
-   - Problem: "1h" could mean "1 hour" or currency abbreviation
-   - Solution: Context-aware pattern matching with priority rules
+번역 실행에 외부 번역 API나 외부 실행 라이브러리를 사용하지 않습니다. 번역 데이터와 실행 코드는 설치 파일에 포함되어 있습니다.
 
-2. **Non-standard Sentence Structures** (EVO Objectives)
-   - Problem: FC's evolution objectives use irregular phrasing
-   - Solution: Custom regex patterns for each objective type
+## 알려진 한계와 오류 제보
 
-3. **Dynamic Content Loading**
-   - Problem: FUT.gg loads content dynamically via AJAX
-   - Solution: MutationObserver to detect and translate new content
+FUT.GG의 화면 구조·문구가 바뀌거나 새 콘텐츠가 추가되면 번역이 누락될 수 있습니다. 브라우저와 확장 프로그램의 실행 시점에 따라 원문이 잠시 보일 수 있습니다. 전체 사이트의 완전한 번역이나 모든 브라우저에서 동일한 표시를 보장하지는 않습니다.
 
----
+번역이 적용되지 않으면 스크립트 활성화, 해당 사이트에서의 실행 허용, 이전 번역 스크립트의 중복 실행 여부를 확인한 뒤 새로고침해 보세요.
 
-### 🔄 FC25/FC26 Compatibility
-**What it does**: Supports both FC25 and FC26 versions  
-**Current status**:
-- FC26: ~80% complete (main features working)
-- FC25: Fully functional except Objectives tab
+[이슈](https://github.com/JHwang831/FUT.GG-Custom-Translation-Korean-/issues)에 페이지 주소, 남아 있는 원문, 기대하는 번역, 스크립트 버전과 가능하면 화면 캡처를 알려주세요. 로그인 정보 등 개인 정보는 제외해 주세요.
 
-## 🛠️ Tech Stack
+## 개발
 
-- **Language**: Vanilla JavaScript (ES6+)
-- **Platform**: Tampermonkey / Greasemonkey
-- **Key Technologies**:
-  - Regular Expressions (RegExp)
-  - DOM TreeWalker API
-  - MutationObserver API
-  - localStorage (for settings)
+설치용 파일은 생성된 결과물입니다. 번역 수정은 `src/`에서 한 뒤 다시 빌드하세요. 개발·검증에는 Node.js 24를 사용했습니다.
 
-## 🚀 Installation
-
-### Prerequisites
-
-A browser extension for running userscripts:
-- **Chrome/Edge**: [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
-- **Firefox**: [Tampermonkey](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/) or [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/)
-- **Safari**: [Userscripts](https://apps.apple.com/app/userscripts/id1463298887)
-
-### Installation Steps
-
-1. **Install Tampermonkey** (if not already installed)
-   - Visit your browser's extension store
-   - Search for "Tampermonkey"
-   - Click "Add to Browser"
-
-2. **Install the script**
-   - Visit the [script installation page](https://greasyfork.org/ko/scripts/530332-fut-gg-custom-translation-korean) (or raw GitHub URL)
-   - Tampermonkey will automatically detect the script
-   - Click "Install"
-
-3. **Visit FUT.gg**
-   - Navigate to [FUT.gg](https://www.fut.gg/)
-   - The translation will activate automatically
-   - Look for Korean text on player cards and interface
-
-### Manual Installation
-
-1. Copy the script code from the repository
-2. Open Tampermonkey dashboard
-3. Click "Create a new script"
-4. Paste the code
-5. Save (Ctrl+S or Cmd+S)
-
-## 📖 Usage Guide
-
-### Basic Usage
-
-1. **Automatic Translation**
-   - Simply visit FUT.gg with the script enabled
-   - All supported text will be translated automatically
-   - No additional configuration needed
-
-2. **Toggle On/Off**
-   - Click Tampermonkey icon in browser toolbar
-   - Toggle the script on/off as needed
-
-### Advanced Features
-
-**Custom Settings** (if implemented):
-- Translation intensity (full/partial)
-- Excluded sections
-- Debug mode
-
-Access via Tampermonkey script menu or on-page settings button.
-
-## 🏗️ Project Structure
-
-```
-FUT.gg-Translation/
-├── futgg-korean-translation.user.js  # Main script file
-├── README.md
-├── CHANGELOG.md                       # Version history
-└── docs/
-    ├── translation-dictionary.md     # Korean translation mappings
-    └── technical-details.md          # Implementation details
+```sh
+npm ci
+npm run build
+npm test
+npm run check
 ```
 
-## 🔧 Technical Deep Dive
+| 경로 | 역할 |
+| --- | --- |
+| `FUTGG_KOR_3.0.user.js` | 설치용 단일 스크립트 |
+| `FUTGG_KOR_3.0.meta.js` | 업데이트 확인용 메타데이터 |
+| `src/ko-KR.json` | 고정 UI 문구 사전 |
+| `src/*rules.js` | 역할·시간·보상·진화·목표·SBC 조건 처리 |
+| `src/content-policy.js` | 식별 정보·콘텐츠 이름·뉴스 보호 |
+| `src/runtime.js` | DOM 처리, 원문·결과 캐시, 변경 감시 |
+| `src/userscript-header.txt` | 사용자 스크립트 메타데이터 |
+| `scripts/build.cjs` | 설치 파일과 메타데이터 생성·일치 검사 |
+| `tests/` | DOM 갱신·번역·원문 유지 검증과 테스트 자료 |
 
-### Translation Engine
+`jsdom`은 개발 테스트에서만 사용합니다. 저장소에 포함된 자료로 조건 문장, 분할 문장, 동적 삽입·숫자 변경, 클릭 동작, 원문 유지 및 카운트다운을 검사합니다. 별도로 수집한 `research/*.html`이 있으면 공개 페이지 검증도 실행하며, 없으면 해당 검사만 SKIP으로 표시합니다.
 
-**Core Algorithm**:
-```javascript
-// 1. DOM TreeWalker for efficient traversal
-const walker = document.createTreeWalker(
-  document.body,
-  NodeFilter.SHOW_TEXT
-);
+공개 FUT.GG React 앱을 로컬 프록시로 불러온 브라우저에서 홈 카운트다운, 선수 SBC 카드와 Evo Lab 로그인 안내를 확인했습니다. 로그인된 계정의 저장·삭제·EA 클럽 동기화와 모든 브라우저 환경을 검증한 것은 아닙니다.
 
-// 2. RegExp.exec for pattern matching
-while (match = pattern.exec(text)) {
-  // Replace with Korean translation
-}
+## 제작
 
-// 3. MutationObserver for dynamic content
-const observer = new MutationObserver(mutations => {
-  translateNewContent(mutations);
-});
-```
+[@JHwang831](https://github.com/JHwang831) · JHwang831(리스제임스의목발)
 
-### Regex Optimization
-
-**Problem**: Original approach used simple string replacement, causing conflicts
-
-**Solution**: Prioritized regex patterns with context awareness
-```javascript
-// High priority: Specific patterns
-/\b(\d+)\s*goals?\b/gi  // "5 goals" → "5골"
-
-// Medium priority: Common terms
-/\bpace\b/gi             // "pace" → "속도"
-
-// Low priority: Generic words
-/\bthe\b/gi              // Usually skip
-```
-
-### Performance Optimization
-
-**Techniques used**:
-1. **Debouncing**: Limit translation frequency on rapid DOM changes
-2. **Batch Processing**: Group multiple translations together
-3. **Early Exit**: Skip already-translated nodes
-4. **Lazy Loading**: Translate only visible content first
-
-## 📊 Translation Coverage
-
-### Fully Supported (FC26)
-- ✅ Player cards (name, position, stats)
-- ✅ Player roles and PlayStyles
-- ✅ Team information
-- ✅ Squad builder interface
-- ✅ Search and filter options
-
-### Partially Supported
-- ⚠️ Evolution objectives (FC25: not implemented)
-- ⚠️ Market listings
-- ⚠️ Some dynamic tooltips
-
-### Planned Features
-- 🔄 Complete objectives tab support (FC25)
-- 🔄 User customizable dictionary
-- 🔄 Translation toggle button
-- 🔄 Performance metrics display
-
-## 🐛 Known Issues
-
-1. **FC25 Objectives Tab**: Not yet implemented
-2. **Rare Edge Cases**: Some non-standard phrases may not translate
-3. **AJAX Delays**: Very fast navigation may briefly show untranslated text
-
-**Workaround**: Refresh the page if translations don't appear immediately.
-
-## 🔄 Version History
-
-### v1.2.0 (Current - In Development)
-- 80% FC26 compatibility
-- Improved regex patterns for objectives
-- Performance optimizations
-
-### v1.1.1
-- Fixed time vs currency unit conflicts
-- Enhanced EVO objectives handling
-- DOM TreeWalker implementation
-
-### v1.1.0
-- RegExp.exec-based matching system
-- Initial FC26 support
-- Bug fixes and optimizations
-
-### v1.0.0
-- Initial release
-- Basic FC25 translation support
-
-## 🤝 Contributing
-
-Contributions are welcome! If you'd like to:
-- Add new translations
-- Report bugs or issues
-- Suggest improvements
-- Submit FC25 objectives implementation
-
-Please open an issue or pull request on GitHub.
-
-## 📧 Contact
-
-**Junhyeok Hwang (Jay)**
-- GitHub: [@JHwang831](https://github.com/JHwang831)
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🙏 Acknowledgments
-
-- FUT.gg for providing an excellent FC Series database platform
-- Korean FC Series community for feedback and support (FM Korea)
-
----
-
-Built by Junhyeok Hwang, 2025
+FUT.GG 및 EA SPORTS와 별개로 운영되는 커뮤니티 번역 스크립트입니다.
